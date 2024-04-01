@@ -1,0 +1,17 @@
+Filter Status zip = 
+VAR IsAgeGroupFiltered = IF(ISFILTERED('Zip income/asset merge'[Age group]); "Age"; "")
+VAR IsHousingTypeFiltered = IF(ISFILTERED('Zip income/asset merge'[Housing type]); "Housing"; "")
+VAR IsWealthMeasureFiltered = IF(ISFILTERED('Zip income/asset merge'[Wealth measure]); "Wealth measure"; "")
+VAR IsSizeIntervalFiltered = IF(ISFILTERED('Zip income/asset merge'[Size interval]); "Size interval"; "")
+VAR IsResidentialTypeFiltered = IF(ISFILTERED('Zip income/asset merge'[Residential type]); "Residential"; "")
+VAR IsAreaFiltered = IF(ISFILTERED('Zip income/asset merge'[Postal code name]); "Area"; "")
+VAR FilterConcat = CONCATENATEX(
+    FILTER(
+        {IsAgeGroupFiltered; IsHousingTypeFiltered; IsWealthMeasureFiltered; IsSizeIntervalFiltered; IsResidentialTypeFiltered; IsAreaFiltered};
+        [Value] <> ""
+    );
+    [Value];
+    ", "
+)
+RETURN
+IF(FilterConcat = ""; "No filters applied"; "Filters applied: " & FilterConcat)
